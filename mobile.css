@@ -1,0 +1,49 @@
+@media only screen and (max-width: 500px) {
+    .box_gross_wrapper, .box_typ2_gross_wrapper{
+        margin: 20px auto 15px auto;
+    }
+    
+    .box_gross_header,.box_typ2_gross_header{
+        font-size: 12pt;
+        padding: 6px 4px 6px 10px;
+    }
+
+    .box_gross_inhalt,.box_typ2_gross_inhalt{
+        padding: 8px;
+        font-size: 11pt;
+    }
+
+    .box_gross_footer{
+        font-size: 11pt;
+    }
+
+    .inhalt_zeile_wrapper{
+        padding: 7px 5px;
+    }
+
+    input[type=number]{
+        font-size: 12pt;
+    }
+
+    select{
+        font-size: 10pt;
+    }
+
+    .fehler_werteingabe, .hinweis_werteingabe{
+        font-size: 8pt;
+        margin-top: 3px;
+        padding: 2px;
+    }
+
+    #ergebnisbereich_hinweis{
+        font-size: 10pt;
+    }
+
+    #warnung_bmi_select{
+        margin-top: -8px;
+    }
+
+    .inhalt_zeile_links_rechtsdominant{
+        min-width: 60px;
+    }
+}
