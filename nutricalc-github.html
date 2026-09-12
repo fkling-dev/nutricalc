@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>NUTRIcalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="mobile.css">
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="base.js"></script>
+    <link rel="icon" type="image/x-icon" href="nutricalc_favicon.ico">
+    <link rel="apple-touch-icon" href="nutricalc_favicon.png">
+</head>
+<body>
+<div id="header">
+    <span class='header_bold'>NUTRI</span><span class='header_thin'>calc</span>
+    <!--<span class="header_small_thin"> &raquo; KLINGLER</span>-->
+</div>
+
+<div id="hauptinhalt">
+<form>
+    <input type="hidden" name="prs_groesse_cm" value="">
+    <input type="hidden" name="prs_gewicht_kg" value="">
+    <input type="hidden" name="prs_bmi" value="">
+    <input type="hidden" name="bmi_gruppe_autoselect" value="">
+    <input type="hidden" name="prs_bmigruppe" value="">
+    <input type="hidden" name="prs_ibw_kg" value="">
+    <input type="hidden" name="prs_kof" value="">
+    <input type="hidden" name="prs_df_mlph" value="">
+    <input type="hidden" name="crrt_as_g" value="">
+    <input type="hidden" name="prs_kcal_rel_bmi0" value="">
+    <input type="hidden" name="prs_kcal_rel_bmi1" value="">
+    <input type="hidden" name="prs_as_rel_bmi1_g" value="">
+    <input type="hidden" name="prs_kcal_rel_bmi2" value="">
+    <input type="hidden" name="prs_ree_kcal" value="">
+    <input type="hidden" name="prs_ecmo_bf" value="">
+    <input type="hidden" name="prs_ecmo_sao2" value="">
+    <input type="hidden" name="prs_ecmo_svo2" value="">
+    <input type="hidden" name="prs_ecmo_hb" value="">
+    <input type="hidden" name="prs_ecmo_luftdruck_hpa" value="">
+    <input type="hidden" name="prs_kaloriemetrie_faktor" value=100>
+    <input type="hidden" name="kcal_abs" value="">
+    
+<!-------------------------------- BOX EINSTELLUNGEN ANFANG -------------------------------->
+<!--<div class="box_typ2_gross_wrapper" style="background-color: #de5757; color: #ffffff;">
+    <div class="box_typ2_gross_inhalt" style="font-size: 12pt; text-align: justify">Der Betrieb von www.nutri-calc.de wird zum <b>23.03.2025</b> eingestellt. Falls Sie <b><i>NUTRI</i></b><i>calc</i> danach weiter nutzen möchten kontaktieren Sie mich bitte über <a href='https://www.felixklingler.de/contact' target="_blank" style="color: #ffffff">das Kontaktformular</a> (externer Link).
+    <p></p>
+    The operation of www.nutri-calc.de will be permanently discontinued on <b>March 23, 2025</b>. If you would like to continue using <b><i>NUTRI</i></b><i>calc</i> after this date, please contact me using the <a href='https://www.felixklingler.de/contact' target="_blank" style="color: #ffffff">contact form</a> (external link).
+    </div>
+</div>-->
+<!-------------------------------- BOX EINSTELLUNGEN ENDE -------------------------------->
+    
+<!-------------------------------- BOX EINSTELLUNGEN ANFANG -------------------------------->
+<div class="box_typ2_gross_wrapper" style="background-color: #d3e3f2;">
+    <div class="box_typ2_gross_inhalt" style="font-size: 12pt; text-align: justify"><b>Nur für wissenschaftliche Zwecke - nicht für die Anwendung beim Menschen bestimmt. </b>Dieser Rechner dient bei bekanntem relativen Kalorienziel der Berechnung der absoluten Nährstoffziele (für Aminosäuren, Glukose und Fette) in einem Verhältnis 20% : 50% : 30% (bzw. unter bestimmten Umständen einem individuellen Aminosäure-Ziel) <b>für Erwachsene</b>. Die Festlegung des relativen Kalorienziels muss durch einen in der Ernährungsmedizin erfahrenen Arzt erfolgen. <b>Diese Seite stellt keine Therapieempfehlung dar.</b> Nicht berücksichtig werden ebenfalls zusätzlich erforderliche Nähr- und Ergänzungstoffe.<p></p>
+        <p></p>Als Literatur kann zum Beispiel die DGEM-S2k-Leitlinie &raquo;Klinische Ernährung in der Intensivmedizin&laquo; (AWMF-Registernummer 073-004) herangezogen werden.<p></p>
+        Da die einzelnen Berechnungen auf dem Gerät des Nutzers erfolgen können prinzipienbedingt trotz vorhandener Sicherheitsmechanismen Fehler in der Berechnung nicht ausgeschlossen werden. <b>Die Ergebnisse sollten immer geprüft werden.</b><p></p>Bitte beachten Sie zudem den Abschnitt &raquo;Hilfe & Appendix&laquo;, hier finden sich nähere Informationen zu Berechnungsgrundlagen und Quellen.</div>
+</div>
+<!-------------------------------- BOX EINSTELLUNGEN ENDE -------------------------------->    
+
+<!-------------------------------- BOX EINSTELLUNGEN ANFANG -------------------------------->
+<div class="box_typ2_gross_wrapper" id="experteneinstellungen_wrapper">
+    <div class="box_typ2_gross_header" id="experteneinstellungen_header">
+        <div class="inhalt_zeile_links">Expertenfunktionen</div>
+            <div class="inhalt_zeile_rechts">
+                <label class="form-switch">
+                    <input type="checkbox" onchange="anzeigen_ausblenden(1)">
+                    <i></i>
+                </label>
+            </div>
+    </div>
+    <div class="box_typ2_gross_inhalt" id="experteneinstellungen" style="display:none">
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Kaloriengrundlage</div>
+            <div class="inhalt_zeile_rechts">
+                <select id="kaloriengrundlage" name="kaloriengrundlage" onchange="auswahlliste_pruefen(5)">
+                    <option value="metrik" selected>Körpermetrik</option>
+                    <option value="kaloriemetrie">Kaloriemetrie</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper" id="auswahl_bmigruppe">
+            <div class="inhalt_zeile_links">BMI-Gruppe</div>
+            <div class="inhalt_zeile_rechts">
+                <select id="bmigruppe" name="bmigruppe" onchange="auswahlliste_pruefen(3)">
+                    <option value="autoselect" selected>Auto select</option>
+                    <option value="bmi0">BMI &lt; 30</option>
+                    <option value="bmi1">BMI 30-50</option>
+                    <option value="bmi2">BMI &gt; 50</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper" id="auswahl_bmigruppe">
+            <div class="inhalt_zeile_links">Anmerkungen</div>
+            <div class="inhalt_zeile_rechts">
+                <label class="form-switch">
+                    <input type="checkbox" onchange="anzeigen_ausblenden(3,this)" checked>
+                    <i></i>
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-------------------------------- BOX EINSTELLUNGEN ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+    <div class="box_gross_wrapper">
+        <div class="box_gross_header">Basischarakteristika</div>
+        <div class="box_gross_inhalt">
+            
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">Größe (cm)</div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="groesse_cm" name="groesse_cm" oninput="Wert_Pruefen(this,50,220,'prs_groesse_cm',1)">
+                    <div class='fehler_werteingabe' id="fehler_prs_groesse_cm"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">Gewicht (kg)</div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="gewicht_kg" name="gewicht_kg" oninput="Wert_Pruefen(this,25,300,'prs_gewicht_kg',1)">
+                    <div class='fehler_werteingabe' id="fehler_prs_gewicht_kg"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">Geschlecht</div>
+                <div class="inhalt_zeile_rechts">
+                    <select id="geschlecht" name="geschlecht" onchange="auswahlliste_pruefen(2)">
+                        <option value="m" selected>männlich</option>
+                        <option value="w">weiblich</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">CRRT</div>
+                <div class="inhalt_zeile_rechts">
+                    <select id="crrt" name="crrt" onchange="auswahlliste_pruefen(1)">
+                        <option value="none" selected>Nein</option>
+                        <option value="cvvhd">CVVHD</option>
+                        <option value="cvvh">CVVH</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="box_gross_footer" id="rm_berechnungsstufe_1" style="display:block;">Angaben vervollständigen</div>
+    </div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<!--<div class="box_gross_wrapper">
+    <div class="box_gross_header">Einstellungen</div>
+    <div class="box_gross_inhalt">
+        
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Kaloriengrundlage</div>
+            <div class="inhalt_zeile_rechts">
+                <select id="kaloriengrundlage" name="kaloriengrundlage" onchange="auswahlliste_pruefen(5)">
+                    <option value="metrik" selected>Körpermetrik</option>
+                    <option value="kaloriemetrie">Kaloriemetrie</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper" id="auswahl_bmigruppe">
+            <div class="inhalt_zeile_links">BMI-Gruppe</div>
+            <div class="inhalt_zeile_rechts">
+                <select id="bmigruppe" name="bmigruppe" onchange="auswahlliste_pruefen(3)">
+                    <option value="autoselect" selected>Auto select</option>
+                    <option value="bmi0">BMI &lt; 30</option>
+                    <option value="bmi1">BMI 30-50</option>
+                    <option value="bmi2">BMI &gt; 50</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="box_gross_footer">Nachtrag</div>
+</div>-->
+<!-------------------------------- BOX ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<div class="box_gross_wrapper" id="box_crrt_as" style="display: none;">
+    <div class="box_gross_header">CRRT-Aminosäuren</div>
+    <div class="box_gross_inhalt">
+        
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Dialysatfluss (ml/h)</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="df_mlph" name="df_mlph" oninput="Wert_Pruefen(this,500,3000,'prs_df_mlph',2)">
+                <div class='fehler_werteingabe' id="fehler_prs_df_mlph"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box_gross_footer" id="rm_berechnungsstufe_2" style="display:block;">Angaben vervollständigen</div>
+</div>
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<div class="box_gross_wrapper" id="box_kaloriemetrie" style="display: none">
+    <div class="box_gross_header">Kaloriemetrie</div>
+    <div class="box_gross_inhalt">
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Modus</div>
+            <div class="inhalt_zeile_rechts">
+                <select id="kaloriemetrie_modus" name="kaloriemetrie_modus" onchange="auswahlliste_pruefen(4)">
+                    <option value="resp" selected>Respirator</option>
+                    <option value="ecmo">ECMO</option>
+                    <option value="resp_ecmo">Respirator + ECMO</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="wrapper_kaloriemetrie_respirator">
+            
+            <div class="zeilenueberschrift">Respirator</div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">REE<sub>Resp.</sub> (kcal)</div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ree_kcal" name="ree_kcal" oninput="Wert_Pruefen(this,300,5000,'prs_ree_kcal',4)">
+                    <div class='fehler_werteingabe' id="fehler_prs_ree_kcal"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="wrapper_kaloriemetrie_ecmo" style="display: none">
+                
+            <div class="zeilenueberschrift">ECMO (nach Weir)</div>
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">Blutfluss (l/min)</div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_bf" name="ecmo_bf" oninput="Wert_Pruefen(this,0.5,7,'prs_ecmo_bf',4)">
+                    <div class='fehler_werteingabe' id="fehler_prs_ecmo_bf"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">S<sub>a</sub>O<sub>2</sub> (%) <div class="zahlenkreis zahlenkreis_gr2">1</div></div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_sao2" name="ecmo_sao2" oninput="Wert_Pruefen(this,50,100,'prs_ecmo_sao2',4)">
+                    <div class='fehler_werteingabe' id="fehler_prs_ecmo_sao2"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">S<sub>v</sub>O<sub>2</sub> (%) <div class="zahlenkreis zahlenkreis_gr2">1</div></div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_svo2" name="ecmo_svo2" oninput="Wert_Pruefen(this,50,100,'prs_ecmo_svo2',4)">
+                    <div class='fehler_werteingabe' id="fehler_prs_ecmo_svo2"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">Hb (g/dl)</div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_hb" name="ecmo_hb" oninput="Wert_Pruefen(this,4.5,18,'prs_ecmo_hb',4)">
+                    <div class='fehler_werteingabe' id="fehler_prs_ecmo_hb"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">Luftdruck (hPa)</div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_luftdruck" name="ecmo_luftdruck" oninput="Wert_Pruefen(this,800,1100,'prs_ecmo_luftdruck_hpa',4)">
+                    <div class='fehler_werteingabe' id="fehler_prs_ecmo_luftdruck"></div>
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">VO<sub>2</sub> (ml/min) <div class="zahlenkreis zahlenkreis_gr2">2</div></div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_vo2" name="ecmo_vo2" disabled style="color: #333333; font-weight: 600;">
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">VCO<sub>2</sub> (ml/min) <div class="zahlenkreis zahlenkreis_gr2">3</div></div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_vco2" name="ecmo_vco2" disabled style="color: #333333; font-weight: 600;">
+                </div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links">REE<sub>ECMO</sub> (kcal) <div class="zahlenkreis zahlenkreis_gr2">4</div></div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ecmo_ee" name="ecmo_ee" disabled style="color: #333333; font-weight: 600;">
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="zeilenueberschrift">Faktor</div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Gesamt-REE (kcal)</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="ee_total" name="ee_total" disabled style="color: #000000; font-weight: 600;">
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">% REE</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="kaloriemetrie_faktor" name="kaloriemetrie_faktor" value=100 oninput="Wert_Pruefen(this,50,200,'prs_kaloriemetrie_faktor',4)">
+                <div class='fehler_werteingabe' id="fehler_prs_kaloriemetrie_faktor"></div>
+            </div>
+        </div>
+
+        <div id="wrapper_kaloriemetrie_as_bmi1" style="display: none;">
+            <div class="zeilenueberschrift">Aminosäuren (BMI 30-50)</div>
+                <div class="inhalt_zeile_wrapper">
+                    <div class="inhalt_zeile_links">Aminos. g/kg IBW</div>
+                    <div class="inhalt_zeile_rechts">
+                        <input type="number" id="as_rel_bmi1_g" name="as_rel_bmi1_g" class='as_bmi1_input' oninput="Wert_Pruefen(this,1.2,2,'prs_as_rel_bmi1_g',4)">
+                        <div class='fehler_werteingabe' id="fehler_prs_as_rel_bmi1_g"></div>
+                        <div class='hinweis_werteingabe'>Norm: <b>1,5 - 1,8 g/kg IBW</b> &bull; Erlaubt: 1,2 - 2.</b></div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="box_gross_footer" id="rm_berechnungsstufe_4" style="display:block;">Angaben vervollständigen</div>
+</div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<div class="box_gross_wrapper" id="box_bmi0" style="display: none;">
+    <div class="box_gross_header">BMI &leq; 30</div>
+    <div class="box_gross_inhalt">
+        
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">kcal/kg ABW</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="kcal_rel_bmi0" name="kcal_rel_bmi0" oninput="Wert_Pruefen(this,5,40,'prs_kcal_rel_bmi0',3)">
+                <div class='fehler_werteingabe' id="fehler_prs_kcal_rel_bmi0"></div>
+                <div class='hinweis_werteingabe'>Häufig: <b>24 kcal/kg</b> ABW &bull; Erlaubte Werte: 5-40.</div>
+            </div>
+            <div class="zeilenueberschrift">Indexierung</div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links_rechtsdominant">Ef = 0,9</div><div class="inhalt_zeile_rechts_rechtsdominant">&asymp; 21,6 kcal/kg ABW</div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links_rechtsdominant">Ef = 0,8</div><div class="inhalt_zeile_rechts_rechtsdominant">&asymp; 19,2 kcal/kg ABW</div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links_rechtsdominant">Ef = 0,7</div><div class="inhalt_zeile_rechts_rechtsdominant">&asymp; 16,8 kcal/kg ABW</div>
+            </div>
+
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links_rechtsdominant">Ef = 0,6</div><div class="inhalt_zeile_rechts_rechtsdominant">&asymp; 14,4 kcal/kg ABW</div>
+            </div>
+
+            <div class="inhalt_zeile_wrapper">
+                <div class="inhalt_zeile_links_rechtsdominant">Ef = 0,4</div><div class="inhalt_zeile_rechts_rechtsdominant">&asymp; 9,6  kcal/kg ABW</div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="box_gross_footer" id="rm_berechnungsstufe_bmi0" style="display: block">Angaben vervollständigen</div>
+</div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<div class="box_gross_wrapper" id="box_bmi1" style="display: none;">
+    <div class="box_gross_header">BMI 30-50</div>
+    <div class="box_gross_inhalt">
+        
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">kcal/kg ABW</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="kcal_rel_bmi1" name="kcal_rel_bmi1" oninput="Wert_Pruefen(this,5,25,'prs_kcal_rel_bmi1',3)">
+                <div class='fehler_werteingabe' id="fehler_prs_kcal_rel_bmi1"></div>
+                <div class='hinweis_werteingabe'>Häufig: <b>10-14 kcal/kg</b> ABW &bull; Erlaubt: 5-25.</div>
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Aminos. g/kg IBW</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="as_rel_bmi1_g" name="as_rel_bmi1_g" class='as_bmi1_input' oninput="Wert_Pruefen(this,1.2,2,'prs_as_rel_bmi1_g',3)">
+                <div class='fehler_werteingabe' id="fehler_prs_as_rel_bmi1_g"></div>
+                <div class='hinweis_werteingabe'>Häufig: <b>1,4 - 1,8 g/kg IBW</b> &bull; Erlaubt: 1,2 - 2.</b></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box_gross_footer" id="rm_berechnungsstufe_bmi1" style="display: block">Angaben vervollständigen</div>
+</div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<div class="box_gross_wrapper" id="box_bmi2" style="display: none;">
+    <div class="box_gross_header">BMI &gt; 50</div>
+    <div class="box_gross_inhalt">
+        
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">kcal/kg IBW</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="kcal_rel_bmi2" name="kcal_rel_bmi2" oninput="Wert_Pruefen(this,12,34,'prs_kcal_rel_bmi2',3)">
+                <div class='fehler_werteingabe' id="fehler_prs_kcal_rel_bmi2"></div>
+                <div class='hinweis_werteingabe'>Häufig: <b>20-24 kcal/kg</b> IBW &bull; Erlaubte Werte: 12-34.</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box_gross_footer" id="rm_berechnungsstufe_bmi2" style="display: block">Angaben vervollständigen</div>
+</div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+<!-------------------------------- BOX BEGINN -------------------------------->
+<div class="box_gross_wrapper" id="ergebnisbereich" style="opacity: 30%">
+    <div class="box_gross_header">Nährstoffziele pro 24h</div>
+    <div class="box_gross_inhalt">
+
+        <div id="warnung_bmi_select">BMI-Gruppe manuell gewählt!</div>
+
+        <div class="inhalt_zeile_wrapper" style="background-color:#E2EFDA">
+            <div class="inhalt_zeile_links">Aminosäuren (g) <div class='zahlenkreis zahlenkreis_gr2'>5</div></div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="ergebnis_as_ges_g" disabled style="background-color: transparent; color:#000000;">
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper" id="ergebniszeile_crrt_as" style="background-color:#E2EFDA; display: none;">
+            <div class="inhalt_zeile_links"> -- davon CRRT (g)</div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="ergebnis_as_crrt_g" disabled style="background-color: transparent; color:#000000;">
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper" style="background-color:#D9E1F2">
+            <div class="inhalt_zeile_links">Fette (g) <div class='zahlenkreis zahlenkreis_gr2'>6</div></div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="ergebnis_fett_g" disabled style="background-color: transparent; color:#000000;">
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper" style="background-color:#FFDFDD">
+            <div class="inhalt_zeile_links">Glukose (g) <div class='zahlenkreis zahlenkreis_gr2'>7</div></div>
+            <div class="inhalt_zeile_rechts">
+                <input type="number" id="ergebnis_glukose_g" disabled style="background-color: transparent; color:#000000;">
+            </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links">Kalorien <div class='zahlenkreis zahlenkreis_gr2'>8</div></div>
+                <div class="inhalt_zeile_rechts">
+                    <input type="number" id="ergebnis_kcal_abs"  disabled style="background-color: transparent; color:#000000;">
+                </div>
+        </div>
+
+        <div id="ergebnisbereich_hinweis"></div>
+
+    </div>
+    <div class="box_gross_footer" style="display: none">Angaben vervollständigen</div>
+</div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+</form>
+
+<!-------------------------------- BOX BEGINN ABKÜRZUNGEN UND HILFE-------------------------------->
+<div class="box_gross_wrapper">
+    <div class="box_gross_header box_gross_zusammengeklappt" onclick="anzeigen_ausblenden(2,this)" style="cursor:pointer;">Hilfe & Appendix</div>
+    <div class="box_gross_inhalt" id="wrapper_abkuerzungen" style="display:none"> 
+
+    <div class="zeilenueberschrift">Hilfe</div>
+    <b>Problem: Die Eingabe von Kommazahlen ist nicht möglich.</b><br>Bei der Verwendung bestimmter Browser ist die Eingabe einer Dezimalzahl nur mit Punkt (&raquo;1.5&laquo;) statt Komma (&raquo;1,5&laquo;) erlaubt. Hierbei handelt es sich um eine clientseitige Einschränkung, die serverseitig nicht umgangen werden kann.
+
+    <div class="zeilenueberschrift">Anmerkungen</div>
+    
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">1</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">Gemessen per Blutgasanalyse</div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">2</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+           VO<sub>2</sub> = 0.134 * HZV * (Sa<sub>O2</sub>-Sv<sub>O2</sub>) * Hb
+           <br><span class="suberklaerung">Hb in g/dl &bull; HZV in l/min &bull; Sättigungen in Prozent</span>
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">3</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+           VCO<sub>2</sub> = (Pmx<sub>CO2</sub>/P<sub>atm</sub>) * HZV * 1000<br>Hilfsweise erfolgt die Berechnung unter der Annahme, dass Pmx<sub>CO2</sub> <span class="suberklaerung">(Partial pressure of mixed expired CO<sub>2</sub>)</span> 28 mmHg entspricht.
+           <br><span class="suberklaerung">HZV in l/min &bull; P<sub>atm</sub> in mmHg</span>
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">4</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            Energy Expenditure <sub>Weir</sub> = ((3.9 * VO<sub>2</sub>) + (1.1 x VCO<sub>2</sub>)) * 1.44
+            <br><span class="suberklaerung">VO<sub>2</sub> und VCO<sub>2</sub> in ml/min<br>Basierend auf Formeln aus der Publikation: Wollersheim T, Frank S, Müller MC, et al. Measuring Energy Expenditure in extracorporeal lung support Patients (MEEP) - Protocol, feasibility and pilot trial. Clin Nutr. 2018;37(1):301-307. doi:10.1016/j.clnu.2017.01.001</span>
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">5</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            <b>Für BMI &lt; 30 und BMI &gt; 50:</b> 20 % des Kalorienziels wobei 1 g Aminosäuren mit 4 kcal in die Kalorienberechnung einfließen.<br>
+            <b>Für BMI 30-50:</b> Manuell eingegebene Aminosäurezufuhr (1,4-1,8 g/kg IBW). Siehe auch<div class="zahlenkreis zahlenkreis_gr2">8</div> 
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">6</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            30 % des Kalorienziels wobei 1 g Fette mit 9 kcal in die Kalorienberechnung einfließen.
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">7</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            50 % des Kalorienziels wobei 1 g Glukose mit 4 kcal in die Kalorienberechnung einfließen.
+        </div>
+    </div> 
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">8</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            Sofern die Nährstoffzufuhr für BMI 30-50 berechnet wird, wird die Menge an zuzuführenden Aminosäuren manuell eingegeben und nicht anhand des Kalorienziels berechnet. Hierdurch kommt es unter bestimmten Umständen zu einer nicht kompensierten und in der Kaloriensumme nicht angezeigten zusätzlichen Zufuhr von einigen Hundert Kalorien.
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">9</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            Der <b>BMI</b> [kg/m<sup>2</sup>] wird berechnet nach Gewicht [kg] / (Grösse [m])<sup>2</sup>.
+            <p></p>
+            Das <b>idealisierte Körpergewicht (IBW)</b> [kg] wird wie folgt berechnet: <i>Männer</i> 23 * (Grösse [cm]/100)<sup>2</sup>. <i>Frauen</i> 21,5 * (Grösse [cm]/100)<sup>2</sup>
+            <p></p>
+            Die Angabe der <b>Körperoberfläche</b> erfolgt nach Mosteller. Die hinterlegte Formel ist:
+            KOF [m<sup>2</sup>] = (Körpergrösse [cm] * (Körpergewicht [kg]/3600))<sup>0,5</sup>
+        </div>
+    </div>
+
+    <div class="inhalt_zeile_wrapper">
+        <div class="inhalt_zeile_links_rechtsdominant"><div class="zahlenkreis zahlenkreis_gr1">10</div></div>
+        <div class="inhalt_zeile_rechts_rechtsdominant">
+            Der Aminosäureverlust [g] wird bei <b>CVVHD</b> mit 0.6 * ((Dialysatfluss [ml/h] * 24)/1000) und bei <b>CVVH</b> mit 0.2 * ((Dialysatfluss [ml/h] * 24)/1000) zugrundegelegt.
+        </div>
+    </div>
+
+    <div class="zeilenueberschrift">Abkürzungen</div>    
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">CRRT</div><div class="inhalt_zeile_rechts_rechtsdominant">Continous renal replacement therapy <span class="suberklaerung">Kontinuierliches Nierenersatzverfahren</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">CVVHD</div><div class="inhalt_zeile_rechts_rechtsdominant">Kontinuierliche veno-venöse Hämodialyse</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">CVVH</div><div class="inhalt_zeile_rechts_rechtsdominant">Kontinuierliche veno-venöse Hämofiltration</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">IBW</div><div class="inhalt_zeile_rechts_rechtsdominant">Idealisiertes Körpergewicht <span class="suberklaerung">(Idealized body weight)</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">ABW</div><div class="inhalt_zeile_rechts_rechtsdominant">Tatsächliches Körpergewicht <span class="suberklaerung">(Acutual body weight)</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">BMI</div><div class="inhalt_zeile_rechts_rechtsdominant">Body mass index </div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">KOF</div><div class="inhalt_zeile_rechts_rechtsdominant">Körperoberfläche</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">AS</div><div class="inhalt_zeile_rechts_rechtsdominant">Aminosäuren</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">ECMO</div><div class="inhalt_zeile_rechts_rechtsdominant">Extrakorporale Membranoxygenierung</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">REE</div><div class="inhalt_zeile_rechts_rechtsdominant">Ruhe-Energieumsatz <span class="suberklaerung">(Resting energy expenditure)</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">S<sub>a</sub>O<sub>2</sub></div><div class="inhalt_zeile_rechts_rechtsdominant">Post-Oxygenator Sauerstoffsättigung <span class="suberklaerung">(gemessen per Blutgasanalyse)</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">S<sub>v</sub>O<sub>2</sub></div><div class="inhalt_zeile_rechts_rechtsdominant">Prä-Oxygenator Sauerstoffsättigung <span class="suberklaerung">(gemessen per Blutgasanalyse)</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">Hb</div><div class="inhalt_zeile_rechts_rechtsdominant">Hämoglobin</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">hPa</div><div class="inhalt_zeile_rechts_rechtsdominant">Hektopascal</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">Ef</div><div class="inhalt_zeile_rechts_rechtsdominant">Ernährungsfaktor <span class="suberklaerung">(Multiplikationsfaktor indiziert auf den &raquo;Standard-Ruheenergieumsatz&laquo; bei BMI < 30, also 24 kcal/kg ABW)</span></div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">kcal</div><div class="inhalt_zeile_rechts_rechtsdominant">Kalorien</div>
+        </div>
+
+        <div class="inhalt_zeile_wrapper">
+            <div class="inhalt_zeile_links_rechtsdominant">HZV</div><div class="inhalt_zeile_rechts_rechtsdominant">Herzzeitvolumen bzw. im Kontext der Kaloriemetrie über ECMO der eingestellter Blutfluss</div>
+        </div>
+    </div>
+</div>
+<!-------------------------------- BOX ENDE -------------------------------->
+
+</div>
+
+<div id="footer">
+  NutriCalc und nutri-calc.de sind Teil der Internetpräsenz <a href="https://www.felixklingler.de" target="_blank" style="text-decoration: none; color: #aaaaaa">felixklingler.de</a>. <br>Das Impressum kann  <a href="https://felixklingler.de/contact" target="_blank" style="text-decoration: none; color: #aaaaaa">hier</a> eingesehen werden.
+  <p></p><div id="versionskontrolle_bereich1">V</div><div id="versionskontrolle_bereich2">2024-12-18.1</div><div id="versionskontrolle_bereich3">2024-03-25.4</div>
+  <p></p>&copy; FELIX KLINGLER 2024
+</div>
+
+</body>
+</html>
